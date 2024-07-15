@@ -2,7 +2,7 @@ import streamlit as st
 import joblib
 import pandas as pd
 import os
-import wget
+import urllib.request
 
 # Define the URL of the model file on GitHub
 model_url = 'https://github.com/Joshikakuna/Fashion-Fit/raw/main/outfit_recommendation_model.pkl'
@@ -10,7 +10,7 @@ model_url = 'https://github.com/Joshikakuna/Fashion-Fit/raw/main/outfit_recommen
 # Function to download the model file
 def download_model(url, save_path):
     try:
-        wget.download(url, save_path)
+        urllib.request.urlretrieve(url, save_path)
         return True
     except Exception as e:
         st.error(f"Error downloading model: {e}")
