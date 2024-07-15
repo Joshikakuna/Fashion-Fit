@@ -9,7 +9,8 @@ st.write("Current directory:", current_directory)
 st.write("Directory contents:", os.listdir(current_directory))
 
 # Define the path to the model file
-model_path = '"C:\Users\91918\Downloads\outfit_recommendation_model.pkl"'
+model_path = 'C:\Users\91918\Downloads\outfit_recommendation_model.pkl'
+
 
 # Load the model
 @st.cache(allow_output_mutation=True)
