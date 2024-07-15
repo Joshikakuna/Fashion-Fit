@@ -3,11 +3,15 @@ import joblib
 import pandas as pd
 import os
 
+# Debugging: Check current directory and directory contents
+st.write("Current directory:", os.getcwd())
+st.write("Directory contents:", os.listdir('Fashion-Fit'))
+
 # Load the model
 @st.cache(allow_output_mutation=True)
 def load_model():
     try:
-        model_path = '/mount/src/fashion-fit/Fashion-Fit/outfit_recommendation_model.pkl'
+        model_path = 'Fashion-Fit/outfit_recommendation_model.pkl'
         st.write("Attempting to load model from:", model_path)
         model = joblib.load(model_path)
         return model
