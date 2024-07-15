@@ -3,7 +3,10 @@ import joblib
 import pandas as pd
 
 # Load the model
-model = joblib.load('outfit_recommendation_model.pkl')
+@st.cache(allow_output_mutation=True)
+def load_model():
+    model = joblib.load('Fashion-Fit/outfit_recommendation_model.pkl')
+    return model
 
 # Define the possible values for each feature
 sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
@@ -27,31 +30,14 @@ input_data = pd.DataFrame({
     'skin_tone': [skin_tone],
     'style': [style]
 })
-import streamlit as st
-import joblib
-
-# Load the model
-@st.cache(allow_output_mutation=True)
-def load_model():
-    model = joblib.load('outfit_recommendation_model.pkl')
-    return model
 
 # Load the model
 model = load_model()
 
-# Example usage of the model
-# Replace this with your actual usage scenario
-# For example, model.predict(input_data)
-st.write("Model loaded successfully!")
-
-# Example of how to use the model
-# st.write(model.predict(some_input_data))
-
-
 # Function to get top N recommendations
 def get_top_n_recommendations(model, new_data, n=3):
     probabilities = model.predict_proba(new_data)
-    classes = model.named_steps['classifier'].classes_
+    classes = model.classes_
     top_n_indices = probabilities.argsort()[0, -n:][::-1]
     top_n_classes = classes[top_n_indices]
     return top_n_classes
