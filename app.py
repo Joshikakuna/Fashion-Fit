@@ -48,6 +48,7 @@ input_data = {
 }
 
 # Load the model
+model_path = '/content/outfit_recommendation_model.pkl'
 model = load_model()
 
 # Function to get top N recommendations
