@@ -4,14 +4,16 @@ import pandas as pd
 import os
 
 # Debugging: Check current directory and directory contents
-st.write("Current directory:", os.getcwd())
-st.write("Directory contents:", os.listdir('Fashion-Fit'))
+current_directory = os.getcwd()
+st.write("Current directory:", current_directory)
+st.write("Directory contents:", os.listdir(current_directory))
 
 # Load the model
 @st.cache(allow_output_mutation=True)
 def load_model():
     try:
-        model_path = 'Fashion-Fit/outfit_recommendation_model.pkl'
+        # Adjust the path based on the current directory and your file structure
+        model_path = os.path.join(current_directory, 'Fashion-Fit', 'outfit_recommendation_model.pkl')
         st.write("Attempting to load model from:", model_path)
         model = joblib.load(model_path)
         return model
