@@ -7,7 +7,7 @@ import os
 @st.cache(allow_output_mutation=True)
 def load_model():
     try:
-        model_path = 'Fashion-Fit/outfit_recommendation_model.pkl'
+        model_path = '/mount/src/fashion-fit/Fashion-Fit/outfit_recommendation_model.pkl'
         st.write("Attempting to load model from:", model_path)
         model = joblib.load(model_path)
         return model
@@ -60,7 +60,3 @@ if model:
         st.write("Top Recommendations:")
         for i, recommendation in enumerate(top_recommendations, 1):
             st.write(f"{i}. {recommendation}")
-
-# Debugging information
-st.write("Current directory:", os.getcwd())
-st.write("Directory contents:", os.listdir('Fashion-Fit'))
