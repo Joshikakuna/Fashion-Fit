@@ -1,12 +1,18 @@
 import streamlit as st
 import joblib
-import pandas as pd
 
 # Load the model
 @st.cache(allow_output_mutation=True)
-def load_model():
-    model = joblib.load('Fashion-Fit/outfit_recommendation_model.pkl')
-    return model
+def load_model(model_path):
+    try:
+        model = joblib.load(model_path)
+        return model
+    except FileNotFoundError:
+        st.error(f"Model file '{model_path}' not found. Please check the file path.")
+        return None
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
 
 # Define the possible values for each feature
 sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
@@ -24,15 +30,16 @@ skin_tone = st.selectbox("Select your skin tone", skin_tones)
 style = st.selectbox("Select your preferred style", styles)
 
 # Prepare the input data
-input_data = pd.DataFrame({
+input_data = {
     'size': [size],
     'body_type': [body_type],
     'skin_tone': [skin_tone],
     'style': [style]
-})
+}
 
 # Load the model
-model = load_model()
+model_path = 'Fashion-Fit/outfit_recommendation_model.pkl'
+model = load_model(model_path)
 
 # Function to get top N recommendations
 def get_top_n_recommendations(model, new_data, n=3):
@@ -43,8 +50,10 @@ def get_top_n_recommendations(model, new_data, n=3):
     return top_n_classes
 
 # Make predictions when the button is clicked
-if st.button("Get Recommendations"):
-    top_recommendations = get_top_n_recommendations(model, input_data)
-    st.write("Top Recommendations:")
-    for i, recommendation in enumerate(top_recommendations, 1):
-        st.write(f"{i}. {recommendation}")
+if model:
+    if st.button("Get Recommendations"):
+        input_data_df = pd.DataFrame(input_data)
+        top_recommendations = get_top_n_recommendations(model, input_data_df)
+        st.write("Top Recommendations:")
+        for i, recommendation in enumerate(top_recommendations, 1):
+            st.write(f"{i}. {recommendation}")
