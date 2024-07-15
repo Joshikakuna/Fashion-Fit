@@ -2,10 +2,32 @@ import streamlit as st
 import joblib
 import pandas as pd
 import os
+import requests
 
-# Change the directory to where your model file is located
-model_directory = 'https://github.com/Joshikakuna/Fashion-Fit/blob/main/outfit_recommendation_model.pkl'
-os.chdir(model_directory)
+# Define the URL of the model file on GitHub
+model_url = 'https://github.com/Joshikakuna/Fashion-Fit/raw/main/outfit_recommendation_model.pkl'
+
+# Function to download the model file
+def download_model(url, save_path):
+    try:
+        response = requests.get(url)
+        with open(save_path, 'wb') as f:
+            f.write(response.content)
+        return True
+    except Exception as e:
+        st.error(f"Error downloading model: {e}")
+        return False
+
+# Download the model file to a local directory
+model_directory = '/mount/src/fashion-fit/models'
+model_path = os.path.join(model_directory, 'outfit_recommendation_model.pkl')
+
+if not os.path.exists(model_path):
+    st.info("Downloading model file...")
+    if download_model(model_url, model_path):
+        st.success("Model file downloaded successfully.")
+    else:
+        st.error("Failed to download model file. Please check the URL.")
 
 # Debugging: Check current directory and directory contents
 current_directory = os.getcwd()
@@ -14,9 +36,8 @@ st.write("Directory contents:", os.listdir(current_directory))
 
 # Load the model
 @st.cache(allow_output_mutation=True)
-def load_model():
+def load_model(model_path):
     try:
-        model_path = os.path.join(current_directory, 'outfit_recommendation_model.pkl')
         st.write("Attempting to load model from:", model_path)
         model = joblib.load(model_path)
         return model
@@ -51,7 +72,7 @@ input_data = {
 }
 
 # Load the model
-model = load_model()
+model = load_model(model_path)
 
 # Function to get top N recommendations
 def get_top_n_recommendations(model, new_data, n=3):
