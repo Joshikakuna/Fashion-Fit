@@ -68,14 +68,17 @@ skin_tone = st.selectbox("Select your skin tone", skin_tones)
 style = st.selectbox("Select your preferred style", styles)
 
 # Load the model
+# Load the model
 @st.cache(allow_output_mutation=True)
 def load_model():
     try:
         model = joblib.load('./outfit_recommendation_model.pkl')
         return model
     except Exception as e:
-        st.error(f"Failed to load model. Check logs for details.")
-        st.stop()
+        st.error(f"Failed to load model: {str(e)}")
+        raise e
+model = joblib.load(./outfit_recommendation_model.pkl')
+
 
 model = load_model()
 
