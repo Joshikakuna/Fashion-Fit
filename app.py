@@ -67,3 +67,18 @@ if model:
         st.write("Top Recommendations:")
         for i, recommendation in enumerate(top_recommendations, 1):
             st.write(f"{i}. {recommendation}")
+import streamlit as st
+import pickle
+
+# Assuming this is where your model file is located
+model_path = './outfit_recommendation_model.pkl'
+
+try:
+    st.write("Attempting to load model from:", model_path)
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    st.write("Model loaded successfully!")
+except Exception as e:
+    st.error(f"Error loading model: {e}")
+            
+            
