@@ -77,7 +77,7 @@ def load_model():
     except Exception as e:
         st.error(f"Failed to load model: {str(e)}")
         raise e
-model = joblib.load(./outfit_recommendation_model.pkl')
+model = joblib.load('./outfit_recommendation_model.pkl')
 
 
 model = load_model()
