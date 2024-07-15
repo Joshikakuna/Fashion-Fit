@@ -1,8 +1,4 @@
-import joblib
 
-# Assuming 'model' is your trained model object
-model_path = 'outfit_recommendation_model.pkl'
-joblib.dump(model, model_path)
 import streamlit as st
 import pandas as pd
 
