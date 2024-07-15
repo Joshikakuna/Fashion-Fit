@@ -80,17 +80,6 @@ try:
     st.write("Model loaded successfully!")
 except Exception as e:
     st.error(f"Error loading model: {e}")
-import streamlit as st
-import joblib
 
-# Assuming this is where your model file is located
-model_path = './outfit_recommendation_model.pkl'
-
-try:
-    st.write("Attempting to load model from:", model_path)
-    model = joblib.load(model_path)
-    st.write("Model loaded successfully!")
-except Exception as e:
-    st.error(f"Error loading model: {e}")
             
             
