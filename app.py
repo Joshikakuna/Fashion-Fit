@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 # Change the directory to where your model file is located
-model_directory = ''
+model_directory = 'https://github.com/Joshikakuna/Fashion-Fit/blob/main/outfit_recommendation_model.pkl'
 os.chdir(model_directory)
 
 # Debugging: Check current directory and directory contents
