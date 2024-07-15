@@ -1,10 +1,14 @@
 import streamlit as st
 import joblib
+import pandas as pd
+import os
 
 # Load the model
 @st.cache(allow_output_mutation=True)
-def load_model(model_path):
+def load_model():
     try:
+        model_path = 'Fashion-Fit/outfit_recommendation_model.pkl'
+        st.write("Attempting to load model from:", model_path)
         model = joblib.load(model_path)
         return model
     except FileNotFoundError:
@@ -38,8 +42,7 @@ input_data = {
 }
 
 # Load the model
-model_path = 'Fashion-Fit/outfit_recommendation_model.pkl'
-model = load_model(model_path)
+model = load_model()
 
 # Function to get top N recommendations
 def get_top_n_recommendations(model, new_data, n=3):
@@ -57,3 +60,7 @@ if model:
         st.write("Top Recommendations:")
         for i, recommendation in enumerate(top_recommendations, 1):
             st.write(f"{i}. {recommendation}")
+
+# Debugging information
+st.write("Current directory:", os.getcwd())
+st.write("Directory contents:", os.listdir('Fashion-Fit'))
